@@ -25,9 +25,9 @@ describe("Game", () => {
     
     it("When the dragon attacks the knight, the knight loses some pvs", () => {
         //when
-        let knight_start_pv = knight.getPV()
+        const knight_start_pv = knight.getPV()
         game.playerIsAttacked()
-        let knight_new_pv = knight.getPV()
+        const knight_new_pv = knight.getPV()
         //then
         expect(knight_start_pv).toEqual(60)
         expect(knight_new_pv).toEqual(20)
@@ -35,9 +35,9 @@ describe("Game", () => {
 
     it("When the knight attacks the dragon, the dragon loses some pvs", () => {
         //when
-        let dragon_start_pv = dragon.getPV()
+        const dragon_start_pv = dragon.getPV()
         game.monsterIsAttacked()
-        let dragon_new_pv = dragon.getPV()
+        const dragon_new_pv = dragon.getPV()
         //then
         expect(dragon_start_pv).toEqual(100)
         expect(dragon_new_pv).toEqual(70)
@@ -45,7 +45,7 @@ describe("Game", () => {
 
     it("The game declares a winner when the knight or the dragon is dead", () => {
         //when
-        let knight_start_pv = knight.getPV()
+        const knight_start_pv = knight.getPV()
         game.playerIsAttacked(knight_start_pv)
         let knight_new_pv = knight.getPV()
         game.playerIsAttacked(knight_new_pv)
