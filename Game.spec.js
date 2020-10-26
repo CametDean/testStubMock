@@ -16,25 +16,14 @@ describe("Game", () => {
         game = new Game(knight, dragon)
     })
 
-    it("initializes the game", () => {
+    it("When the game starts, you have a small introduction", () => {
         //when 
-        let gameIntro = game.getIntro()
+        const gameIntro = game.getIntro()
         //then
         expect(gameIntro).toEqual("Today, Camille the knight is going to fight Eliott the dragon")
     })
-
-    it("set the number of pv of the knigth", () => {
-        //when
-        let knight_start_pv = knight.getPV()
-        knight.setPV(10)
-        let knight_new_pv = knight.getPV()
-        //then
-        expect(knight_start_pv).toEqual(60)
-        expect(knight_new_pv).toEqual(10)
-    })
     
-
-    it("set the pv of the player after he is being attacked", () => {
+    it("When the dragon attacks the knight, the knight loses some pvs", () => {
         //when
         let knight_start_pv = knight.getPV()
         game.playerIsAttacked()
@@ -44,7 +33,7 @@ describe("Game", () => {
         expect(knight_new_pv).toEqual(20)
     })
 
-    it("set the pv of the dragon after he is being attacked", () => {
+    it("When the knight attacks the dragon, the dragon loses some pvs", () => {
         //when
         let dragon_start_pv = dragon.getPV()
         game.monsterIsAttacked()
@@ -54,36 +43,29 @@ describe("Game", () => {
         expect(dragon_new_pv).toEqual(70)
     })
 
-    it("return the winner of the game", () => {
+    it("The game declares a winner when the knight or the dragon is dead", () => {
         //when
-        game.playerIsAttacked()
-        game.playerIsAttacked()
-        let winner = game.getWinner()
+        let knight_start_pv = knight.getPV()
+        game.playerIsAttacked(knight_start_pv)
+        let knight_new_pv = knight.getPV()
+        game.playerIsAttacked(knight_new_pv)
+        knight_new_pv = knight.getPV()
         //then
-        expect(winner).toEqual("Eliott is the winner!")
+        expect(game.playerIsAttacked(knight_new_pv)).toBe("Eliott is the winner!")
     })
 
-    it("returns the winner of the game", () => {
-        //when
-        sinon.stub(game, "getWinner").returns("Eliott is the winner!");
-        let winner = game.getWinner()
-        //then
-        expect(winner).toEqual("Eliott is the winner!")
-    })
-
-    it("verify if the function getWinner() is called at least once", () => {
+    it("When the knight or the dragon quits, the other is the winner by default", () => {
         //when
         sinon.stub(dragon, "getPV").returns(0);
-        let mock = sinon.mock(game)
-
         //then
-        mock.expects("getWinner").once()
+        expect(game.monsterIsAttacked(dragon.getPV())).toEqual("Camille is the winner!")
+    })
 
-        game.getWinner()
-
-        mock.verify()
-       
-        
+    it("When one quits or dies, we have a winner", () => {
+        //when
+        let mock = sinon.mock(game)
+        //then
+        mock.expects("getWinner").once() 
     })
 
 })

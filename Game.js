@@ -5,22 +5,27 @@ const Game = class Game {
     }
 
     getIntro(){
-        return "Today, " + this.player.name + " the knight is going to fight " + this.monster.name + " the dragon"
+        return `Today, ${this.player.name} the knight is going to fight ${this.monster.name} the dragon`
     }
 
-    playerIsAttacked(){
-        return this.player.pv -= this.monster.damages    
+    playerIsAttacked(playerPv){
+        if(playerPv <= 0){
+            return this.getWinner(this.monster.name)
+        }else{
+           return this.player.pv -= this.monster.damages     
+        }
+        
     }
 
-    monsterIsAttacked(){
+    monsterIsAttacked(monsterPv){
+        if(monsterPv <= 0){
+            return this.getWinner(this.player.name)
+        }
         return this.monster.pv -= this.player.damages
     }
 
-    getWinner(){
-        if(this.player.pv <= 0){
-            return this.monster.name + " is the winner!"
-        }
-        return this.player.name + " is the winner!"
+    getWinner(name){
+        return `${name} is the winner!`
     }
 }
 
